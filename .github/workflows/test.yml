@@ -1,0 +1,19 @@
+name: Validate Signal Ledger
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate fixtures
+        run: |
+          python3 validate.py examples/safe-example.json
+          python3 validate.py tests/adversarial.json
+

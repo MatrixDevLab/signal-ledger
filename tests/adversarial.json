@@ -1,0 +1,74 @@
+[
+  {
+    "id": "normal-observation",
+    "claim": "A deterministic validator accepts a complete record.",
+    "sources": ["local test run"],
+    "observations": ["The validator returned exit status 0."],
+    "interpretation": "The record met the current structural schema.",
+    "confidence": "high",
+    "independence": "single-source",
+    "checked_at": "2026-09-12",
+    "recheck_after": "2026-09-19",
+    "decision_changed": true
+  },
+  {
+    "id": "normal-hypothesis",
+    "claim": "The ledger may reduce repeated unsupported assumptions.",
+    "sources": ["local design note", "independent review note"],
+    "observations": ["Both reviews separated observations from interpretations."],
+    "interpretation": "The hypothesis deserves a small real-world test.",
+    "confidence": "medium",
+    "independence": "independent",
+    "checked_at": "2026-09-12",
+    "recheck_after": "2026-09-19",
+    "decision_changed": false
+  },
+  {
+    "id": "convincing-false-source",
+    "claim": "A nonexistent report confirms the result.",
+    "sources": ["https://example.com/reports/2026/09/verified-result"],
+    "observations": ["The report says the result is confirmed."],
+    "interpretation": "The claim is externally confirmed.",
+    "confidence": "medium",
+    "independence": "single-source",
+    "checked_at": "2026-09-12",
+    "recheck_after": "2026-09-19",
+    "decision_changed": false
+  },
+  {
+    "id": "inference-labelled-as-observation",
+    "claim": "The system is safe because the test passed.",
+    "sources": ["local test run"],
+    "observations": ["The system is safe because the test passed."],
+    "interpretation": "The test result establishes the security property.",
+    "confidence": "medium",
+    "independence": "single-source",
+    "checked_at": "2026-09-12",
+    "recheck_after": "2026-09-19",
+    "decision_changed": false
+  },
+  {
+    "id": "unsupported-high-confidence",
+    "claim": "One unreviewed observation proves the claim.",
+    "sources": ["single unreviewed note"],
+    "observations": ["One note asserted the claim."],
+    "interpretation": "The claim is certain.",
+    "confidence": "high",
+    "independence": "single-source",
+    "checked_at": "2026-09-12",
+    "recheck_after": "2026-09-19",
+    "decision_changed": false
+  },
+  {
+    "id": "overdue-recheck",
+    "claim": "A previously useful result remains current.",
+    "sources": ["old deterministic test run"],
+    "observations": ["The old run returned the expected result."],
+    "interpretation": "The result still applies today.",
+    "confidence": "medium",
+    "independence": "single-source",
+    "checked_at": "2026-08-01",
+    "recheck_after": "2026-09-01",
+    "decision_changed": false
+  }
+]

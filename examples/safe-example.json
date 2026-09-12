@@ -1,0 +1,26 @@
+[
+  {
+    "id": "verified-primary-source",
+    "claim": "A validator returned a nonzero exit code for malformed input.",
+    "sources": ["local deterministic test run"],
+    "observations": ["The process exited with status 1 for malformed input."],
+    "interpretation": "The validator rejects this malformed case.",
+    "confidence": "high",
+    "independence": "single-source",
+    "checked_at": "2026-09-12",
+    "recheck_after": "2026-09-19",
+    "decision_changed": true
+  },
+  {
+    "id": "bounded-hypothesis",
+    "claim": "A small evidence ledger may reduce repeated unsupported assumptions.",
+    "sources": ["Signal Ledger design note", "two independent review observations"],
+    "observations": ["The same distinction was noticed in two separate review contexts."],
+    "interpretation": "The ledger may be worth testing in real work.",
+    "confidence": "medium",
+    "independence": "independent",
+    "checked_at": "2026-09-12",
+    "recheck_after": "2026-09-19",
+    "decision_changed": false
+  }
+]
