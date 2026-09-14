@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "title": "False-positive / false-negative baseline",
+  "validator": "validate.py",
+  "project_version": "0.2.0",
+  "recorded_at": "2026-09-14",
+  "method": {
+    "command": "python3 validate.py <fixture>",
+    "runs": 2,
+    "reproducible": true,
+    "classification_rule": "A case is adversarial or benign according to the fixture design described in ROADMAP.md; 'flagged' means the validator emitted at least one warning for that record id.",
+    "intent_source": "ROADMAP.md v0.2 lists the adversarial fixture as covering false sources, inference/observation confusion, unsupported confidence, and stale evidence; the two remaining records act as controls."
+  },
+  "fixtures": [
+    {
+      "path": "tests/adversarial.json",
+      "records": 6,
+      "warnings": 3,
+      "exit_code": 0,
+      "cases": [
+        {
+          "id": "normal-observation",
+          "intent": "benign",
+          "flagged": true,
+          "warning": "high-confidence-without-independent-evidence",
+          "classification": "false-positive"
+        },
+        {
+          "id": "normal-hypothesis",
+          "intent": "benign",
+          "flagged": false,
+          "classification": "true-negative"
+        },
+        {
+          "id": "convincing-false-source",
+          "intent": "adversarial",
+          "flagged": false,
+          "classification": "false-negative",
+          "note": "A plausible but false source is structurally well-formed. The validator does not and cannot assess source truth, so this case passes silently."
+        },
+        {
+          "id": "inference-labelled-as-observation",
+          "intent": "adversarial",
+          "flagged": false,
+          "classification": "false-negative",
+          "note": "The observation/inference detector matches only the literal token 'interpretation:' inside an observation string. An inference written as plain declarative prose is not detected."
+        },
+        {
+          "id": "unsupported-high-confidence",
+          "intent": "adversarial",
+          "flagged": true,
+          "warning": "high-confidence-without-independent-evidence",
+          "classification": "true-positive"
+        },
+        {
+          "id": "overdue-recheck",
+          "intent": "adversarial",
+          "flagged": true,
+          "warning": "overdue-recheck",
+          "classification": "true-positive"
+        }
+      ]
+    },
+    {
+      "path": "examples/safe-example.json",
+      "records": 2,
+      "warnings": 1,
+      "exit_code": 0,
+      "cases": [
+        {
+          "id": "verified-primary-source",
+          "intent": "benign",
+          "flagged": true,
+          "warning": "high-confidence-without-independent-evidence",
+          "classification": "false-positive",
+          "note": "This is the fixture's intended good example, yet it warns. The warning fires on any high-confidence claim whose independence is not 'independent', so a verified primary source and an unverified single source are treated identically."
+        },
+        {
+          "id": "bounded-hypothesis",
+          "intent": "benign",
+          "flagged": false,
+          "classification": "true-negative"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "true_positive": 2,
+    "true_negative": 2,
+    "false_positive": 2,
+    "false_negative": 2
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "finding": "The validator cannot detect a convincing false source.",
+      "status": "known-limitation",
+      "evidence": "convincing-false-source is unflagged.",
+      "implication": "Structural validation must not be read as truth validation. This is already stated in PROJECT.md; the baseline makes it measured rather than asserted."
+    },
+    {
+      "id": "F2",
+      "finding": "Inference written as declarative prose passes as an observation.",
+      "status": "gap",
+      "evidence": "inference-labelled-as-observation is unflagged because the detector requires the literal token 'interpretation:'.",
+      "implication": "Rule 1 of the README is enforced only for one surface form."
+    },
+    {
+      "id": "F3",
+      "finding": "The high-confidence warning does not distinguish a verified primary source from an unverified single source.",
+      "status": "false-positive",
+      "evidence": "verified-primary-source warns while being the fixture's intended good example.",
+      "implication": "The most valuable warning is also the noisiest, which weakens its use as a decision gate."
+    },
+    {
+      "id": "F4",
+      "finding": "Every fixture exits 0 whether or not warnings are emitted.",
+      "status": "behavior",
+      "evidence": "Both fixtures returned exit_code 0 with different warning counts.",
+      "implication": "Validation is warning-only. As-is it cannot gate a merge; the roadmap's 'warning-only vs decision gate' experiment has a concrete starting number."
+    }
+  ],
+  "known_limits": [
+    "Intent labels come from fixture design and roadmap text, not from an independent external oracle.",
+    "Two runs are enough to show determinism, not to estimate variance.",
+    "Classification is per record id; the validator has no per-case assertion mechanism, so this baseline is external to it."
+  ]
+}

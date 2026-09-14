@@ -12,7 +12,7 @@
 - [ ] Add a fixture where a plausible source contradicts a primary observation.
 - [ ] Design a conservative check for observation/inference boundary violations without pretending to understand truth automatically.
 - [ ] Compare warning-only validation with a decision gate in one small, reproducible workflow.
-- [ ] Record false positives and false negatives as first-class test results.
+- [x] Record false positives and false negatives as first-class test results — baseline of 8 cases (2 TP / 2 TN / 2 FP / 2 FN) in [`experiments/fp-fn-baseline.json`](experiments/fp-fn-baseline.json).
 
 ## Later, only if justified
 
