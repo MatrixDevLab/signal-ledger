@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "title": "Expanded prose-inference cue probe",
+  "recorded_at": "2026-09-15",
+  "status": "exploratory",
+  "scope": "A review-only probe; validator semantics are unchanged.",
+  "method": {
+    "runs": 2,
+    "reproducible": true,
+    "input": "Fourteen hand-labelled observation strings covering explicit cues, paraphrases, direct observations, and quoted or reported inference.",
+    "detector": "Flag an observation when it contains a word-boundary match for because, therefore, thus, so, means, prove(s), establish(es), confirm(s), or demonstrate(s).",
+    "interpretation": "Cue matches are review signals, not truth or inference verdicts."
+  },
+  "summary": {
+    "true_positive": 3,
+    "true_negative": 3,
+    "false_positive": 4,
+    "false_negative": 4
+  },
+  "cases": [
+    {
+      "id": "explicit_because",
+      "expected_inference": true,
+      "text": "The result changed because the source was stale.",
+      "flagged": true,
+      "classification": "true_positive"
+    },
+    {
+      "id": "explicit_therefore",
+      "expected_inference": true,
+      "text": "The source is stale; therefore the claim needs review.",
+      "flagged": true,
+      "classification": "true_positive"
+    },
+    {
+      "id": "explicit_demonstrates",
+      "expected_inference": true,
+      "text": "The replay demonstrates that the missing field changed the decision.",
+      "flagged": true,
+      "classification": "true_positive"
+    },
+    {
+      "id": "paraphrase_given",
+      "expected_inference": true,
+      "text": "Given the mismatch, the record supports a review request.",
+      "flagged": false,
+      "classification": "false_negative"
+    },
+    {
+      "id": "paraphrase_follows",
+      "expected_inference": true,
+      "text": "The review request follows from the missing evidence.",
+      "flagged": false,
+      "classification": "false_negative"
+    },
+    {
+      "id": "paraphrase_points",
+      "expected_inference": true,
+      "text": "Taken together, the samples point to a coverage gap.",
+      "flagged": false,
+      "classification": "false_negative"
+    },
+    {
+      "id": "paraphrase_consistent",
+      "expected_inference": true,
+      "text": "The result is consistent with a stale handoff.",
+      "flagged": false,
+      "classification": "false_negative"
+    },
+    {
+      "id": "direct_return",
+      "expected_inference": false,
+      "text": "The parser returned eight records and zero errors.",
+      "flagged": false,
+      "classification": "true_negative"
+    },
+    {
+      "id": "direct_timestamp",
+      "expected_inference": false,
+      "text": "The source was opened at 12:00 and its qualifier was retained.",
+      "flagged": false,
+      "classification": "true_negative"
+    },
+    {
+      "id": "reported_count",
+      "expected_inference": false,
+      "text": "The run reported four warnings in the output.",
+      "flagged": false,
+      "classification": "true_negative"
+    },
+    {
+      "id": "quoted_because",
+      "expected_inference": false,
+      "text": "The source contains the sentence: \"It changed because the input was stale.\"",
+      "flagged": true,
+      "classification": "false_positive"
+    },
+    {
+      "id": "quoted_therefore",
+      "expected_inference": false,
+      "text": "The report quotes: \"Therefore, the claim needs review.\"",
+      "flagged": true,
+      "classification": "false_positive"
+    },
+    {
+      "id": "reported_demonstrates",
+      "expected_inference": false,
+      "text": "The abstract says the experiment demonstrates a coverage gap.",
+      "flagged": true,
+      "classification": "false_positive"
+    },
+    {
+      "id": "reported_proves",
+      "expected_inference": false,
+      "text": "The author claims the result proves the policy is safe.",
+      "flagged": true,
+      "classification": "false_positive"
+    }
+  ],
+  "finding": {
+    "result": "The transparent cue set catches explicit inference language but misses paraphrases and flags inference language quoted or attributed to a source.",
+    "implication": "A lexical cue can prioritize review, but paraphrase misses and quote false positives make it unsuitable as an enforcement predicate without a separate scope and context check.",
+    "next_test": "Compare a typed review warning against downstream decisions while preserving quoted-source and silent-paraphrase controls."
+  }
+}
