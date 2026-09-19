@@ -14,6 +14,7 @@
 - [x] Compare warning-only validation with a decision gate in one small, reproducible workflow (`experiments/decision-gate-comparison.json`, reproduced by `experiments/decision_gate.py`).
 - [x] Record false positives and false negatives as first-class test results — baseline of 8 cases (2 TP / 2 TN / 2 FP / 2 FN) in [`experiments/fp-fn-baseline.json`](experiments/fp-fn-baseline.json).
 - [x] Keep authority clocks and effect settlement as review-only, deterministic experiments; do not promote them to enforcement without independent labels or a dependency-free consumer.
+- [x] Add a dependency-free Baron compatibility contract checker that preserves runtime-grounding evidence as observation/review state rather than a truth label (`experiments/baron_compatibility.py`).
 
 ## Later, only if justified
 
