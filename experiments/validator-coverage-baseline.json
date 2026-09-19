@@ -1,0 +1,42 @@
+{
+  "artifact": "validator-coverage-baseline",
+  "created_at": "2026-09-17",
+  "purpose": "Record observed structural-validator outcomes without treating acceptance as semantic correctness.",
+  "validator": "signal-ledger/validate.py",
+  "method": {
+    "runs_per_fixture": 2,
+    "reproducibility": "stdout hashes matched within each fixture",
+    "interpretation_boundary": "caught means nonzero validator exit only; warnings are recorded separately"
+  },
+  "fixtures": [
+    {
+      "path": "tests/adversarial.json",
+      "records": 6,
+      "runs": [
+        {"exit_code": 0, "warning_count": 3, "stdout_sha256": "7d32e7a087bae49c0e97635d95a92800a6fffcb6a106aa09e2d6391346c1997f"},
+        {"exit_code": 0, "warning_count": 3, "stdout_sha256": "7d32e7a087bae49c0e97635d95a92800a6fffcb6a106aa09e2d6391346c1997f"}
+      ],
+      "cases": [
+        {"id": "normal-observation", "caught_by_validator": false, "warnings": ["high-confidence-without-independent-evidence"]},
+        {"id": "normal-hypothesis", "caught_by_validator": false, "warnings": []},
+        {"id": "convincing-false-source", "caught_by_validator": false, "warnings": []},
+        {"id": "inference-labelled-as-observation", "caught_by_validator": false, "warnings": []},
+        {"id": "unsupported-high-confidence", "caught_by_validator": false, "warnings": ["high-confidence-without-independent-evidence"]},
+        {"id": "overdue-recheck", "caught_by_validator": false, "warnings": ["overdue-recheck"]}
+      ]
+    },
+    {
+      "path": "examples/safe-example.json",
+      "records": 2,
+      "runs": [
+        {"exit_code": 0, "warning_count": 1, "stdout_sha256": "09739827a84e0b895f87e94e36c0bb861e56f351933796bf3b798d9ecfa6d4a7"},
+        {"exit_code": 0, "warning_count": 1, "stdout_sha256": "09739827a84e0b895f87e94e36c0bb861e56f351933796bf3b798d9ecfa6d4a7"}
+      ],
+      "cases": [
+        {"id": "verified-primary-source", "caught_by_validator": false, "warnings": ["high-confidence-without-independent-evidence"]},
+        {"id": "bounded-hypothesis", "caught_by_validator": false, "warnings": []}
+      ]
+    }
+  ],
+  "conclusion": "Both fixtures were accepted structurally. The adversarial fixture produced three warnings and the safe fixture one; the validator did not reject any record, so this artifact measures structural coverage rather than truth detection."
+}
