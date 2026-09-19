@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "title": "Contradictory source fixture",
+  "recorded_at": "2026-09-19",
+  "status": "design-only",
+  "scope": "Fixture and structural validation only; validator semantics are unchanged and no source-truth oracle is claimed.",
+  "input": "tests/contradictory-source.json",
+  "method": {
+    "runs": 2,
+    "verification": "Run the unchanged validator twice and compare exit status and output.",
+    "label_basis": "Labels are fixed by the fixture's explicitly stated primary process observations and are not independently adjudicated source truth."
+  },
+  "expected_result": {
+    "records": 2,
+    "warnings": 0,
+    "structural_validation": "passes"
+  },
+  "finding": {
+    "result": "The record shape can preserve a primary/secondary conflict without silently choosing a winner.",
+    "limit": "The unchanged validator checks structure only; it neither detects contradiction nor establishes which source is correct.",
+    "next_step": "Keep contradiction handling as an explicit review input; do not turn source agreement or priority into automatic enforcement."
+  }
+}
