@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "title": "Monotonic grant epoch plus independent currentness witness",
+  "cases": [
+    {
+      "id": "current-independent",
+      "grant_epoch": 12,
+      "current_epoch": 12,
+      "revocation_witness": "current",
+      "witness_independence": "independent",
+      "expected_state": "review_current"
+    },
+    {
+      "id": "superseded-grant",
+      "grant_epoch": 11,
+      "current_epoch": 12,
+      "revocation_witness": "current",
+      "witness_independence": "independent",
+      "expected_state": "deny_epoch_mismatch"
+    },
+    {
+      "id": "revoked-current-epoch",
+      "grant_epoch": 12,
+      "current_epoch": 12,
+      "revocation_witness": "revoked",
+      "witness_independence": "independent",
+      "expected_state": "deny_revoked_or_stale"
+    },
+    {
+      "id": "same-issuer-witness",
+      "grant_epoch": 12,
+      "current_epoch": 12,
+      "revocation_witness": "current",
+      "witness_independence": "shared_issuer",
+      "expected_state": "deny_unresolved_authority"
+    },
+    {
+      "id": "opaque-currentness",
+      "grant_epoch": 12,
+      "current_epoch": 12,
+      "revocation_witness": "unknown",
+      "witness_independence": "unknown",
+      "expected_state": "deny_revoked_or_stale"
+    }
+  ]
+}
