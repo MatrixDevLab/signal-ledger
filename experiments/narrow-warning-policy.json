@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "title": "Narrow warning policy comparison",
+  "recorded_at": "2026-09-19",
+  "scope": "Design-only experiment; validator semantics and merge behavior are unchanged.",
+  "input": "experiments/fp-fn-baseline.json",
+  "question": "Can a warning policy reduce false-positive blocking without pretending that structural warnings prove truth?",
+  "method": {
+    "cases": 8,
+    "labels": "The baseline's fixed intent and classification labels; no consumer output changes them.",
+    "policies": {
+      "warning_only": "Allow every case while retaining warnings for review.",
+      "block_overdue_recheck_only": "Block only the overdue-recheck warning; treat all other warnings as review-only."
+    },
+    "reproduction": "Run the policy calculation twice over the same baseline and require byte-identical summaries."
+  },
+  "observed": {
+    "warning_only": {
+      "blocked": 0,
+      "benign_blocked": 0,
+      "adversarial_allowed": 4
+    },
+    "block_overdue_recheck_only": {
+      "blocked": 1,
+      "benign_blocked": 0,
+      "true_positive_blocked": 1,
+      "adversarial_allowed": 3
+    },
+    "naive_block_on_any_warning_reference": {
+      "blocked": 4,
+      "benign_blocked": 2,
+      "true_positive_blocked": 2,
+      "adversarial_allowed": 2
+    }
+  },
+  "finding": {
+    "result": "The overdue-only policy removes the two observed benign blocks from the naive gate, but still allows three adversarial cases.",
+    "decision": "Keep this as review-policy evidence, not an enforcement change. A safe merge gate needs independently labelled coverage for the remaining warning classes and false negatives.",
+    "boundary": "Neither policy establishes source truth, source independence, or production authorization safety."
+  },
+  "next_step": "Only test a stronger policy after adding fixed, independently labelled controls for the remaining warning classes; do not change validator semantics from this fixture."
+}
