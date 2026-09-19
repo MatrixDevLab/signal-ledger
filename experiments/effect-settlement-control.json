@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "title": "Effect settlement labelled control",
+  "recorded_at": "2026-09-19",
+  "status": "design_only",
+  "scope": "Privacy-safe labelled replay for the settlement design; it does not authorize retries or alter validator semantics.",
+  "label_basis": "Expected states are fixed before the consumer runs and use abstract surface statuses only.",
+  "cases": [
+    {
+      "id": "readback-confirmed",
+      "acceptance_status": "accepted",
+      "readback_status": "present",
+      "deletion_status": "not_deleted",
+      "expected_state": "accepted_and_read_back"
+    },
+    {
+      "id": "readback-absent",
+      "acceptance_status": "accepted",
+      "readback_status": "missing",
+      "deletion_status": "unknown",
+      "expected_state": "accepted_readback_missing"
+    },
+    {
+      "id": "readback-tombstoned",
+      "acceptance_status": "accepted",
+      "readback_status": "present",
+      "deletion_status": "deleted",
+      "expected_state": "accepted_readback_deleted"
+    },
+    {
+      "id": "writer-ambiguous",
+      "acceptance_status": "unknown",
+      "readback_status": "missing",
+      "deletion_status": "unknown",
+      "expected_state": "acceptance_unknown"
+    }
+  ]
+}
