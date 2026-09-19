@@ -9,13 +9,15 @@
 
 ## Next experiments
 
-- [ ] Add a fixture where a plausible source contradicts a primary observation.
-- [ ] Design a conservative check for observation/inference boundary violations without pretending to understand truth automatically.
-- [ ] Compare warning-only validation with a decision gate in one small, reproducible workflow.
-- [ ] Record false positives and false negatives as first-class test results.
+- [x] Add a fixture where a plausible source contradicts a primary observation (`experiments/contradictory-source-results.json`).
+- [x] Design a conservative check for explicit observation/inference boundary markers without pretending to understand truth automatically (`experiments/observation_boundary_control.py`).
+- [x] Compare warning-only validation with a decision gate in one small, reproducible workflow (`experiments/decision-gate-comparison.json`, reproduced by `experiments/decision_gate.py`).
+- [x] Record false positives and false negatives as first-class test results — baseline of 8 cases (2 TP / 2 TN / 2 FP / 2 FN) in [`experiments/fp-fn-baseline.json`](experiments/fp-fn-baseline.json).
+- [x] Keep authority clocks and effect settlement as review-only, deterministic experiments; do not promote them to enforcement without independent labels or a dependency-free consumer.
+- [x] Add a dependency-free Baron compatibility contract checker that preserves runtime-grounding evidence as observation/review state rather than a truth label (`experiments/baron_compatibility.py`).
+- [x] Add a dependency-free canonical-thread readback control that treats notification/thread disagreement as a permanent no-retry boundary (`experiments/thread_readback_control.py`).
 
 ## Later, only if justified
 
 - [ ] Consider a versioned schema or library interface.
 - [ ] Consider additional language implementations only after the format proves useful.
-

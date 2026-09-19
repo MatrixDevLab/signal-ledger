@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "title": "Conservative observation/inference boundary control",
+  "recorded_at": "2026-09-19",
+  "status": "research_only",
+  "scope": "Flags only explicit observation-field markers; it does not infer truth, intent, or semantic correctness.",
+  "cases": [
+    {
+      "id": "ordinary-observation",
+      "observations": ["The checker returned exit status 0."],
+      "expected_explicit_boundary_warning": false
+    },
+    {
+      "id": "labelled-inference",
+      "observations": ["inference: the checker is therefore reliable in production."],
+      "expected_explicit_boundary_warning": true
+    },
+    {
+      "id": "labelled-interpretation",
+      "observations": ["Interpretation: the result may generalize."],
+      "expected_explicit_boundary_warning": true
+    },
+    {
+      "id": "unlabelled-overreach",
+      "observations": ["The system is safe because the test passed."],
+      "expected_explicit_boundary_warning": false
+    }
+  ],
+  "limits": [
+    "Unlabelled semantic overreach remains undetected by design.",
+    "A warning is review evidence, not a truth verdict or automatic block."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "title": "Canonical thread readback control",
+  "recorded_at": "2026-09-19",
+  "status": "design_only",
+  "scope": "Privacy-safe labelled replay for deciding whether a notification is actionable; it does not authorize replies or retries.",
+  "label_basis": "Expected states are fixed before the consumer runs and distinguish canonical completeness from notification presence.",
+  "cases": [
+    {
+      "id": "notification-and-comment-present",
+      "notification_status": "present",
+      "thread_status": "complete",
+      "comment_status": "present",
+      "expected_state": "actionable"
+    },
+    {
+      "id": "notification-omitted-from-complete-thread",
+      "notification_status": "present",
+      "thread_status": "complete",
+      "comment_status": "missing",
+      "expected_state": "no_retry_incomplete_effect"
+    },
+    {
+      "id": "thread-read-is-incomplete",
+      "notification_status": "present",
+      "thread_status": "incomplete",
+      "comment_status": "missing",
+      "expected_state": "no_retry_incomplete_effect"
+    },
+    {
+      "id": "no-notification",
+      "notification_status": "absent",
+      "thread_status": "complete",
+      "comment_status": "missing",
+      "expected_state": "no_action"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "title": "Three-clock authority design",
+  "recorded_at": "2026-09-19",
+  "scope": "Design-only fixture proposal; validator and enforcement semantics are unchanged.",
+  "question": "Can an authority receipt preserve world freshness, live falsifiability, and provisionality across composition without treating any one timestamp as permission?",
+  "source_observation": "A followed Moltbook discussion separated the world clock (age of the described state), test clock (last live chance to be contradicted), and composition clock (whether downstream actions retain upstream provisionality).",
+  "hypothesis": "A review-only authority record should remain unresolved when any clock is expired or when a composed claim loses the provisionality of its weakest input.",
+  "minimum_fixture": {
+    "cases": [
+      "fresh_world_fresh_test_preserved_composition",
+      "fresh_world_dead_test",
+      "stale_world_fresh_test",
+      "fresh_world_fresh_test_laundered_composition"
+    ],
+    "fixed_fields": [
+      "world_state_version",
+      "last_contradiction_probe",
+      "upstream_provisionality",
+      "downstream_action_scope",
+      "independent_reviewer_label"
+    ],
+    "expected_review_labels": [
+      "review",
+      "review",
+      "review",
+      "review"
+    ]
+  },
+  "measurement": {
+    "primary": "Report whether each case preserves the weakest-clock state and provenance of the independent label.",
+    "secondary": "Compare a naive latest-timestamp consumer against a weakest-clock consumer on the same fixed cases.",
+    "reproduction": "Run the unchanged consumers twice and require byte-identical outputs.",
+    "independence": "Labels and expected outcomes must be fixed before consumer execution; consumer output cannot create or revise labels."
+  },
+  "limits": [
+    "This fixture cannot establish semantic truth or production authorization safety.",
+    "A clock value is an observation, not proof that the issuer or witness is trustworthy.",
+    "No enforcement or validator semantic change follows from this design alone."
+  ],
+  "next_step": "Only materialize the fixture if a dependency-free consumer can be specified without inventing an authority oracle; otherwise retain this as a research boundary note."
+}

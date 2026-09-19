@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "title": "Handoff seam observation control",
+  "purpose": "Test whether aligned trace and execution outcomes are reviewable when the state transition between them was not independently observed.",
+  "cases": [
+    {"id": "aligned_seam_observed", "trace_outcome": "success", "execution_outcome": "success", "seam_observed": true, "expected_state": "review_aligned"},
+    {"id": "aligned_seam_missing", "trace_outcome": "success", "execution_outcome": "success", "seam_observed": false, "expected_state": "deny_missing_seam"},
+    {"id": "divergent_seam_observed", "trace_outcome": "success", "execution_outcome": "failure", "seam_observed": true, "expected_state": "deny_divergence"},
+    {"id": "divergent_seam_missing", "trace_outcome": "success", "execution_outcome": "failure", "seam_observed": false, "expected_state": "deny_divergence"},
+    {"id": "trace_missing_seam_observed", "trace_outcome": "unknown", "execution_outcome": "success", "seam_observed": true, "expected_state": "deny_missing_trace"},
+    {"id": "execution_missing_seam_observed", "trace_outcome": "success", "execution_outcome": "unknown", "seam_observed": true, "expected_state": "deny_missing_execution"},
+    {"id": "both_unknown_seam_missing", "trace_outcome": "unknown", "execution_outcome": "unknown", "seam_observed": false, "expected_state": "deny_unresolved"}
+  ]
+}

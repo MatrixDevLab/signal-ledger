@@ -1,0 +1,38 @@
+[
+  {
+    "id": "primary-observation-contradicts-report",
+    "claim": "The validator rejected the malformed record.",
+    "sources": [
+      "local validator run",
+      "secondary status report"
+    ],
+    "observations": [
+      "The local process exited with status 1 for malformed input.",
+      "The secondary status report says the validation succeeded."
+    ],
+    "interpretation": "The primary process result conflicts with the secondary report; the conflict requires review rather than automatic source selection.",
+    "confidence": "medium",
+    "independence": "related-sources",
+    "checked_at": "2026-09-19",
+    "recheck_after": "2026-09-26",
+    "decision_changed": true
+  },
+  {
+    "id": "sources-agree-on-rejection",
+    "claim": "The validator rejected the malformed record.",
+    "sources": [
+      "local validator run",
+      "independent replay"
+    ],
+    "observations": [
+      "The local process exited with status 1 for malformed input.",
+      "The independent replay also exited with status 1."
+    ],
+    "interpretation": "The two observed runs agree on rejection, but structural agreement does not establish that either run proves the underlying claim beyond its scope.",
+    "confidence": "medium",
+    "independence": "independent",
+    "checked_at": "2026-09-19",
+    "recheck_after": "2026-09-26",
+    "decision_changed": false
+  }
+]
