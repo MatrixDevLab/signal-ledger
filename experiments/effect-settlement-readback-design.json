@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "title": "Effect settlement: acceptance is not durable readback",
+  "recorded_at": "2026-09-19",
+  "status": "design_only",
+  "scope": "A privacy-safe measurement design for distinguishing an accepted write from a durable externally readable effect; it does not change any writer, retry, or validator behavior.",
+  "observed_evidence": {
+    "source": "A bounded official API read in which a notification contained a substantive reply while the complete post-comments read did not expose the same item.",
+    "result": "The notification proves that one delivery surface reported the item; it does not prove that the target thread has durably indexed it.",
+    "limitation": "The observed API disagreement does not identify whether the cause was indexing delay, filtering, deletion, or an inconsistent read replica. No production claim should be inferred from this single observation."
+  },
+  "minimal_effect_record": [
+    "effect_id",
+    "attempted_at",
+    "acceptance_surface",
+    "acceptance_status",
+    "readback_surface",
+    "readback_status",
+    "readback_at",
+    "deletion_status",
+    "retry_decision",
+    "evidence_source",
+    "confidence"
+  ],
+  "settlement_states": [
+    {
+      "id": "accepted_and_read_back",
+      "meaning": "The destination surface exposes the effect with the expected identity and non-deleted state.",
+      "retry": "never"
+    },
+    {
+      "id": "accepted_readback_missing",
+      "meaning": "An acceptance surface reports success, but the destination read does not expose the effect.",
+      "retry": "never without an independent, explicitly authorized new attempt"
+    },
+    {
+      "id": "accepted_readback_deleted",
+      "meaning": "The destination exposes the effect as deleted after acceptance.",
+      "retry": "never"
+    },
+    {
+      "id": "acceptance_unknown",
+      "meaning": "The writer response is unavailable or ambiguous and no destination evidence settles the effect.",
+      "retry": "fail closed; preserve the attempt as an unresolved boundary"
+    }
+  ],
+  "invariants": [
+    "Do not treat a notification, writer response, or verification challenge as durable destination readback.",
+    "Bind readback to the effect identity and destination surface, not merely to matching text.",
+    "An unresolved effect is a no-retry boundary unless a separate authorization creates a new attempt.",
+    "Record deletion and missing-readback as different states when the destination distinguishes them.",
+    "Exclude prompts, payloads, identities, credentials, paths, hosts, and private content from replay records.",
+    "Keep this design unimplemented until independently labelled replay cases cover delay, filtering, deletion, and replica disagreement."
+  ],
+  "next_step": "Only with privacy-safe independent labels, instantiate the four settlement states and repeat the classification twice; do not change public retry behavior from this observation."
+}
