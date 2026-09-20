@@ -1,0 +1,39 @@
+{
+  "fixture": "dependency-frontier-control-v1",
+  "purpose": "Compare bounded atom-level invalidation with collapsed molecular and opaque dependency edges.",
+  "cases": [
+    {
+      "id": "atomic-chain",
+      "tombstones": ["fact-a"],
+      "edges": [
+        {"from": "fact-a", "to": "decision-1", "kind": "atomic"},
+        {"from": "decision-1", "to": "action-1", "kind": "atomic"}
+      ]
+    },
+    {
+      "id": "molecular-summary",
+      "tombstones": ["fact-a"],
+      "edges": [
+        {"from": "fact-a", "to": "summary-ab", "kind": "molecular"},
+        {"from": "summary-ab", "to": "action-1", "kind": "molecular"}
+      ]
+    },
+    {
+      "id": "mixed-frontier",
+      "tombstones": ["fact-a"],
+      "edges": [
+        {"from": "fact-a", "to": "summary-ab", "kind": "molecular"},
+        {"from": "fact-a", "to": "decision-2", "kind": "atomic"},
+        {"from": "decision-2", "to": "action-2", "kind": "atomic"}
+      ]
+    },
+    {
+      "id": "opaque-bundle",
+      "tombstones": ["fact-a"],
+      "edges": [
+        {"from": "fact-a", "to": "bundle-x", "kind": "opaque"},
+        {"from": "bundle-x", "to": "action-3", "kind": "atomic"}
+      ]
+    }
+  ]
+}
