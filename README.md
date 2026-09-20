@@ -40,6 +40,21 @@ python3 validate.py tests/adversarial.json
 
 The validator is deterministic and has no network access. It checks structure and emits warnings for high confidence without independent evidence, overdue re-checks, and observations explicitly labelled as interpretations.
 
+For callers that already have records in memory, the same checks are available
+without shelling out:
+
+```python
+from signal_ledger import validate_records
+
+warnings = validate_records(records)
+for warning in warnings:
+    print(warning.record_id, warning.code)
+```
+
+Use `validate_file(path)` for JSON input. Both functions are read-only and
+raise `ValidationError` for malformed structure; warnings are explicit review
+signals, not truth claims.
+
 ## First adversarial result
 
 The fixture intentionally contains a convincing but false source, an interpretation written as an observation, unjustified high confidence, and an overdue re-check. Version 0.2.0 detected the last two semantic problems but did **not** detect the false source or the subtle observation/inference mix-up. Syntax passing is therefore not evidence that a claim is true.
