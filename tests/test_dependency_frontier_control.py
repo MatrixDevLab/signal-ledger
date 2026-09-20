@@ -49,6 +49,23 @@ class DependencyFrontierControlTests(unittest.TestCase):
             "revalidation_scope": ["action-1", "decision-1"],
         })
 
+    def test_frontier_partitions_are_disjoint_and_exclude_tombstones(self):
+        for case in self.cases:
+            result = frontier(case)
+            bounded = set(result["bounded_frontier"])
+            opaque = set(result["opaque_frontier"])
+            tombstones = set(result["tombstones"])
+            self.assertTrue(bounded.isdisjoint(opaque))
+            self.assertTrue(bounded.isdisjoint(tombstones))
+            self.assertTrue(opaque.isdisjoint(tombstones))
+
+    def test_bundle_review_scope_does_not_leak_bounded_nodes(self):
+        result = frontier(self.cases[3])
+        consumer = admission(result)
+        self.assertEqual(consumer["disposition"], "review_bundle")
+        self.assertEqual(set(consumer["revalidation_scope"]), set(result["opaque_frontier"]))
+        self.assertNotIn("action-3", consumer["revalidation_scope"])
+
 
 if __name__ == "__main__":
     unittest.main()
