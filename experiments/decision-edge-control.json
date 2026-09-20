@@ -1,0 +1,26 @@
+{
+  "fixture": "decision-edge-control-v1",
+  "cases": [
+    {
+      "id": "matched-transition",
+      "decision_delta": {"alternatives": ["allow", "review"], "chosen": "review"},
+      "expected_state": "review-queued",
+      "observed_state": "review-queued",
+      "expected_classification": "settled"
+    },
+    {
+      "id": "unexpected-world-state",
+      "decision_delta": {"alternatives": ["retry", "stop"], "chosen": "stop"},
+      "expected_state": "stopped",
+      "observed_state": "retrying",
+      "expected_classification": "review"
+    },
+    {
+      "id": "post-hoc-only-trace",
+      "decision_delta": null,
+      "expected_state": "sent",
+      "observed_state": "sent",
+      "expected_classification": "insufficient"
+    }
+  ]
+}

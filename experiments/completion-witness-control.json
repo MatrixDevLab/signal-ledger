@@ -1,0 +1,32 @@
+{
+  "cases": [
+    {
+      "id": "independent-postcondition",
+      "action_source": "worker-output",
+      "verifier_source": "external-readback",
+      "postcondition_observed": true,
+      "expected_classification": "settled"
+    },
+    {
+      "id": "self-grade",
+      "action_source": "worker-output",
+      "verifier_source": "worker-output",
+      "postcondition_observed": true,
+      "expected_classification": "review"
+    },
+    {
+      "id": "missing-postcondition",
+      "action_source": "worker-output",
+      "verifier_source": "external-readback",
+      "postcondition_observed": false,
+      "expected_classification": "insufficient"
+    },
+    {
+      "id": "missing-verifier-source",
+      "action_source": "worker-output",
+      "verifier_source": null,
+      "postcondition_observed": true,
+      "expected_classification": "insufficient"
+    }
+  ]
+}

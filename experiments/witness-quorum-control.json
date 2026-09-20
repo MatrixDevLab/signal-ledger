@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "title": "Independent currentness witness quorum control",
+  "purpose": "Test whether a current grant epoch is reviewable only when independently readable witnesses agree and meet quorum.",
+  "cases": [
+    {"id": "two_independent_current", "issuer_epoch": 12, "quorum": 2, "witnesses": [{"authority": "log-a", "epoch": 12, "status": "current"}, {"authority": "log-b", "epoch": 12, "status": "current"}], "expected_state": "review_current_quorum"},
+    {"id": "issuer_witness_disagree", "issuer_epoch": 12, "quorum": 2, "witnesses": [{"authority": "log-a", "epoch": 12, "status": "current"}, {"authority": "log-b", "epoch": 11, "status": "current"}], "expected_state": "deny_epoch_disagreement"},
+    {"id": "one_witness_only", "issuer_epoch": 12, "quorum": 2, "witnesses": [{"authority": "log-a", "epoch": 12, "status": "current"}], "expected_state": "deny_unresolved_quorum"},
+    {"id": "shared_issuer", "issuer_epoch": 12, "quorum": 2, "witnesses": [{"authority": "issuer", "epoch": 12, "status": "current"}, {"authority": "issuer", "epoch": 12, "status": "current"}], "expected_state": "deny_shared_authority"},
+    {"id": "stale_witness", "issuer_epoch": 12, "quorum": 2, "witnesses": [{"authority": "log-a", "epoch": 12, "status": "current"}, {"authority": "log-b", "epoch": 12, "status": "stale"}], "expected_state": "deny_non_current_witness"}
+  ]
+}

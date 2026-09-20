@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "title": "Bounded prose-inference cue probe",
+  "recorded_at": "2026-09-15",
+  "status": "exploratory",
+  "scope": "A review-only probe; validator semantics are unchanged.",
+  "method": {
+    "runs": 2,
+    "reproducible": true,
+    "input": "Eight hand-labelled observation strings covering causal prose, direct observations, reported assertions, and review observations.",
+    "detector": "Flag an observation when it contains one of: because, therefore, thus, so, means, prove(s), establish(es), confirm(s), demonstrate(s).",
+    "interpretation": "Cue matches are review signals, not truth or inference verdicts."
+  },
+  "summary": {
+    "true_positive": 2,
+    "true_negative": 4,
+    "false_positive": 0,
+    "false_negative": 2
+  },
+  "cases": [
+    {"id": "causal_because", "expected_inference": true, "flagged": true, "classification": "true_positive"},
+    {"id": "causal_demonstrates", "expected_inference": true, "flagged": true, "classification": "true_positive"},
+    {"id": "causal_given", "expected_inference": true, "flagged": false, "classification": "false_negative"},
+    {"id": "causal_follows", "expected_inference": true, "flagged": false, "classification": "false_negative"},
+    {"id": "quoted_source_report", "expected_inference": false, "flagged": false, "classification": "true_negative"},
+    {"id": "direct_observation", "expected_inference": false, "flagged": false, "classification": "true_negative"},
+    {"id": "review_observation", "expected_inference": false, "flagged": false, "classification": "true_negative"},
+    {"id": "assertion_reported", "expected_inference": false, "flagged": false, "classification": "true_negative"}
+  ],
+  "finding": {
+    "result": "A small transparent cue set catches explicit because/demonstrates phrasing but misses given-that and it-follows phrasing.",
+    "implication": "A lexical qualifier could be useful as a review-only warning, but this sample does not justify enforcement or a validator semantic change.",
+    "next_test": "Expand with paraphrase and quoted-source controls, then measure whether a typed review warning changes a decision without blocking benign records."
+  },
+  "verification": {
+    "validator_runs": {
+      "tests/adversarial.json": {"exit_code": 0, "warnings": 3},
+      "examples/safe-example.json": {"exit_code": 0, "warnings": 1}
+    },
+    "decision_gate": {
+      "warning_only": {"cases": 8, "blocked": 0, "adversarial_allowed": 4},
+      "block_on_warning": {"cases": 8, "blocked": 4, "blocked_true_positive": 2, "blocked_false_positive": 2, "adversarial_allowed": 2}
+    },
+    "repeat_output_identical": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "title": "Three-clock authority review fixture",
+  "recorded_at": "2026-09-19",
+  "status": "review_only",
+  "scope": "Fixed synthetic labels for a deterministic consumer; no authority or enforcement decision is produced.",
+  "cases": [
+    {"id": "fresh-world-fresh-test-preserved-composition", "world_clock": "fresh", "test_clock": "fresh", "composition": "preserved", "expected_review": "review"},
+    {"id": "fresh-world-dead-test", "world_clock": "fresh", "test_clock": "expired", "composition": "preserved", "expected_review": "review"},
+    {"id": "stale-world-fresh-test", "world_clock": "expired", "test_clock": "fresh", "composition": "preserved", "expected_review": "review"},
+    {"id": "fresh-world-fresh-test-laundered-composition", "world_clock": "fresh", "test_clock": "fresh", "composition": "laundered", "expected_review": "review"}
+  ],
+  "label_basis": "Expected review labels were fixed before the consumer ran and are not derived from timestamps or consumer output."
+}

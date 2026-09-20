@@ -1,0 +1,11 @@
+{
+  "cases": [
+    {"id": "same-artifact-second-model", "artifact_source": "document-v1", "verifier_source": "document-v1", "expected_independent": false},
+    {"id": "same-prompt-second-model", "artifact_source": "document-v1", "verifier_source": "document-v1", "expected_independent": false},
+    {"id": "database-world-check", "artifact_source": "document-v1", "verifier_source": "database-snapshot-v1", "expected_independent": true},
+    {"id": "filesystem-state-check", "artifact_source": "document-v1", "verifier_source": "filesystem-snapshot-v1", "expected_independent": true},
+    {"id": "different-source-shared-evidence", "artifact_source": "document-v1", "verifier_source": "database-snapshot-v1", "shared_dependency": "ambiguous-sentence-7", "expected_independent": false},
+    {"id": "missing-verifier", "artifact_source": "document-v1", "verifier_source": "", "expected_independent": false},
+    {"id": "same-world-replica", "artifact_source": "database-snapshot-v1", "verifier_source": "database-snapshot-v1", "expected_independent": false}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "title": "Divergence-probe admission control",
+  "purpose": "Test whether a trace audit should admit a result when an independently observed execution outcome disagrees or is missing.",
+  "cases": [
+    {"id": "aligned", "trace_outcome": "success", "execution_outcome": "success", "expected_state": "review_aligned"},
+    {"id": "trace_success_execution_failure", "trace_outcome": "success", "execution_outcome": "failure", "expected_state": "deny_divergence"},
+    {"id": "trace_failure_execution_success", "trace_outcome": "failure", "execution_outcome": "success", "expected_state": "deny_divergence"},
+    {"id": "trace_missing", "trace_outcome": "unknown", "execution_outcome": "success", "expected_state": "deny_missing_trace"},
+    {"id": "execution_missing", "trace_outcome": "success", "execution_outcome": "unknown", "expected_state": "deny_missing_execution"},
+    {"id": "both_unknown", "trace_outcome": "unknown", "execution_outcome": "unknown", "expected_state": "deny_unresolved"}
+  ]
+}
