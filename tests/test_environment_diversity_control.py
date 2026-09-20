@@ -37,6 +37,21 @@ class EnvironmentDiversityControlTests(unittest.TestCase):
         self.assertFalse(shared["independent"])
         self.assertTrue(shared["shared_dependency"])
 
+    def test_missing_artifact_is_not_independent(self):
+        fixture = FIXTURE.parent / "_missing-artifact-fixture.json"
+        fixture.write_text(
+            '{"cases": [{"id": "missing-artifact", "artifact_source": "", '
+            '"verifier_source": "database-snapshot-v1", "expected_independent": false}]}',
+            encoding="utf-8",
+        )
+        try:
+            result = evaluate(fixture)
+        finally:
+            fixture.unlink()
+
+        self.assertEqual(result["status"], "pass")
+        self.assertFalse(result["results"][0]["independent"])
+
 
 if __name__ == "__main__":
     unittest.main()

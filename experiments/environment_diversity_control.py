@@ -21,7 +21,10 @@ def evaluate(path: Path) -> dict[str, object]:
         artifact = case.get("artifact_source")
         verifier = case.get("verifier_source")
         shared = bool(case.get("shared_dependency"))
-        independent = artifact != verifier and bool(verifier) and not shared
+        # Missing artifact identity cannot establish independence either.  A
+        # verifier must be distinct from a named artifact source and have no
+        # declared shared dependency.
+        independent = bool(artifact) and artifact != verifier and bool(verifier) and not shared
         expected = bool(case.get("expected_independent"))
         result = {
             "id": case.get("id"),
