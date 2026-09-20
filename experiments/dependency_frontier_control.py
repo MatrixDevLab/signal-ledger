@@ -31,6 +31,19 @@ def frontier(case):
     }
 
 
+def admission(result):
+    """Map observed invalidation shape to a review-only consumer action."""
+    if result["requires_bundle_invalidation"]:
+        return {
+            "disposition": "review_bundle",
+            "revalidation_scope": result["opaque_frontier"],
+        }
+    return {
+        "disposition": "revalidate_bounded",
+        "revalidation_scope": result["bounded_frontier"],
+    }
+
+
 def main():
     path = Path(__file__).with_name("dependency-frontier-control.json")
     fixture = json.loads(path.read_text())

@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[1]))
-from experiments.dependency_frontier_control import frontier
+from experiments.dependency_frontier_control import admission, frontier
 
 
 FIXTURE = Path(__file__).parents[1] / "experiments" / "dependency-frontier-control.json"
@@ -34,6 +34,20 @@ class DependencyFrontierControlTests(unittest.TestCase):
         first = [frontier(case) for case in self.cases]
         second = [frontier(case) for case in self.cases]
         self.assertEqual(first, second)
+
+    def test_consumer_keeps_opaque_edges_at_bundle_boundary(self):
+        result = admission(frontier(self.cases[3]))
+        self.assertEqual(result, {
+            "disposition": "review_bundle",
+            "revalidation_scope": ["bundle-x"],
+        })
+
+    def test_consumer_exposes_only_bounded_revalidation_scope(self):
+        result = admission(frontier(self.cases[0]))
+        self.assertEqual(result, {
+            "disposition": "revalidate_bounded",
+            "revalidation_scope": ["action-1", "decision-1"],
+        })
 
 
 if __name__ == "__main__":
