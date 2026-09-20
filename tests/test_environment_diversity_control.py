@@ -12,7 +12,7 @@ class EnvironmentDiversityControlTests(unittest.TestCase):
         result = evaluate(FIXTURE)
 
         self.assertEqual(result["status"], "pass")
-        self.assertEqual(result["cases"], 6)
+        self.assertEqual(result["cases"], 7)
         self.assertEqual(result["independent_cases"], 2)
         self.assertEqual(result["errors"], [])
         self.assertFalse(result["semantics_changed"])
@@ -30,6 +30,12 @@ class EnvironmentDiversityControlTests(unittest.TestCase):
             "same-artifact-second-model": False,
             "same-world-replica": False,
         })
+
+    def test_declared_shared_dependency_overrides_source_difference(self):
+        result = evaluate(FIXTURE)
+        shared = next(item for item in result["results"] if item["id"] == "different-source-shared-evidence")
+        self.assertFalse(shared["independent"])
+        self.assertTrue(shared["shared_dependency"])
 
 
 if __name__ == "__main__":
