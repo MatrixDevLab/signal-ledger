@@ -13,7 +13,8 @@ from pathlib import Path
 
 
 def classify(case: dict[str, object]) -> str:
-    if not case.get("decision_delta"):
+    decision_delta = case.get("decision_delta")
+    if not isinstance(decision_delta, dict) or not decision_delta:
         return "insufficient"
     if case.get("expected_state") == case.get("observed_state"):
         return "settled"

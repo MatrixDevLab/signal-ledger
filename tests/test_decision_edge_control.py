@@ -32,6 +32,21 @@ class DecisionEdgeControlTests(unittest.TestCase):
         self.assertEqual(result["status"], "pass")
         self.assertEqual(result["results"][0]["classification"], "insufficient")
 
+    def test_malformed_delta_is_not_a_runtime_error(self):
+        fixture = FIXTURE.parent / "_malformed-delta-fixture.json"
+        fixture.write_text(
+            '{"cases": [{"id": "malformed", "decision_delta": "chosen", '
+            '"expected_state": "ok", "observed_state": "ok", '
+            '"expected_classification": "insufficient"}]}',
+            encoding="utf-8",
+        )
+        try:
+            result = evaluate(fixture)
+        finally:
+            fixture.unlink()
+        self.assertEqual(result["status"], "pass")
+        self.assertEqual(result["results"][0]["classification"], "insufficient")
+
 
 if __name__ == "__main__":
     unittest.main()
